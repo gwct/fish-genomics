@@ -33,6 +33,7 @@ library(ggrepel)
 library(viridis)
 library(ggdist)
 library(stringr)
+library(data.table)
 library(here)
 source("../lib/design.r")
 source("../lib/get_tree_info.r")
@@ -125,7 +126,6 @@ print(gcf_tree)
 absrel_counts = data.frame("hyphy"=tree_info$hyphy, "count"=c(0,0,0,0,0,0,0,0,0,0,0,0,0))
 # Data frame for counts per branch
 
-
 for(i in 1:nrow(absrel)){
   cur_branches = absrel[i,]$branches.pval.less.than.alpha
   if(cur_branches == ""){
@@ -134,10 +134,17 @@ for(i in 1:nrow(absrel)){
   cur_branches = strsplit(cur_branches, ";")
   for(branch in cur_branches){
     absrel_counts[absrel_counts$hyphy==branch,]$count = absrel_counts[absrel_counts$hyphy==branch,]$count + 1
+    
+    absrel_counts[absrel_counts$hyphy==branch,]$count = c(absrel_counts[absrel_counts$hyphy==branch,]$count, absrel[i,]$file)
   }
 }
 # Loop over every row in the absrel data frame (every gene) and parse out the branches with evidence for selection
   
+for(branch in tree_info$hyphy){
+  x = absrel[absrel$branches.pval.less.than.alpha %like% branch, ]
+  write.csv(x, file=here("data", "absrel-branch", paste(branch, ".csv", sep="")), row.names=F)
+}
+
 tree_info_counts = merge(tree_info, absrel_counts, by="hyphy")
 tree_info_counts = tree_info_counts[order(tree_info_counts$node), ]
 # Merge the tree and absrel data frames and re-sort by ape node so the trees still work
