@@ -1,28 +1,171 @@
 ---
-title: "Untitled"
-output: html_document
+title: "Fish phylogenomics"
+author: "[gwct](https://gwct.github.io/)"
+date: "`r format(Sys.time(), '%m/%d/%Y %H:%M:%S %Z')`"
+navbar:
+  title: Murinae seq
+output:
+  #html_document:
+  rmdformats::robobook:
+    highlight: kate
+    includes:
+      in_header: '../html-chunks/rmd_header.html'
+    df_print: paged
+    code_folding: hide
+    number_sections: true
+    toc_depth: 3
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+```{r setup, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+
+library(ggplot2)
+library(cowplot)
+library(dplyr)
+library(kableExtra)
+library(tidyr)
+library(ggtree)
+library(phytools)
+library(phangorn)
+library(reshape2)
+library(ggExtra)
+library(ggrepel)
+library(viridis)
+library(ggdist)
+library(stringr)
+library(here)
+source("../lib/design.r")
+source("../lib/get_tree_info.r")
+
 ```
 
-## R Markdown
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+```{r read, out.width="75%", fig.align = "center", warning=FALSE}
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+#cat("188 species targeted capture to mouse exons assembled with SPADES.\n")
+#cat("Pared to 109 species based on paring algorithm")
+#cat("11,775 coding loci aligned with exonerate+mafft\n")
+#cat("Gene trees inferred with IQtree.\n")
 
-```{r cars}
-summary(cars)
+genome_file = here("data", "fish-genomes.csv")
+
+tree_file = here("data", "astral-concord-rooted.tre")
+absrel_file = here("data", "absrel.csv")
+
+tree = read.tree(tree_file)
+tree_to_df_list = treeToDF(tree)
+tree_info = tree_to_df_list[["info"]]
+tree_info = tree_info %>% separate(label, c("hyphy", "astral", "gcf", "scf"), sep="/", remove=F)
+
+tree_info$astral[tree_info$node.type=="tip"] = NA
+tree_info$astral = as.numeric(tree_info$astral)
+tree_info$gcf = as.numeric(tree_info$gcf)
+
+genomes = read.csv(genome_file, header=T)
+names(genomes)[7] = "label"
+
+tree_info = merge(tree_info, genomes, by="label", all=T)
+tree_info = tree_info[order(tree_info$node), ]
+
+absrel = read.csv(absrel_file, header=T, comment.char="#")
+
 ```
 
-## Including Plots
+# Methods summary
 
-You can also embed plots, for example:
+1. Retrieved CDS sequences based on protein IDs. Retained 3053 out of 3560 orthogroups.
+2. Re-aligned with [Guidance](http://guidance.tau.ac.il/ver2/overview.php) to minimize further losses due to CDS/protein sequence mis-matches
+3. Filtered alignments based on gappiness per sequence and per alignment column (window-based filter). Retained 2718 out of 3053 orthogroups.
+4. Built gene trees from each of the 2718 orthogroups with [IQ-tree](http://www.iqtree.org/) and used them as input to [ASTRAL](https://github.com/smirarab/ASTRAL) to infer the species tree.
+5. Assessed discordance between gene trees and species trees with [IQ-tree](http://www.iqtree.org/).
+6. Inferred substitution rates and tested for selection per lineage with [HyPhy's aBSREL test](http://www.hyphy.org/methods/selection-methods/). Used the species tree as input for all genes since discordance was low (see below). Corrected for multiple tests with the Bonferroni method (Original alpha was p < 0.01, corrected alpha is 3.679175864606328e-06).
+7. Counted the number of times each branch showed evidence for positive selection (p < corrected alpha).
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+# Genome info
+
+We downloaded the genomes to convert from protein ID/sequence to CDS ID/sequence
+
+```{r genome-table, out.width="50%", fig.align = "center", warning=FALSE, fig.height=6}
+
+names(genomes)[7] = "Abbreviation"
+genomes = select(genomes, -S.name, -Notes, -Sequencing.platform, -Assembly.method)
+genomes %>% kable(caption="Fish genomes") %>% kable_styling(bootstrap_options=c("striped", "condensed", "responsive"), full_width=F)
+
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+# Species tree and gene concordance factors
+
+All branches except the one leading to Node4 have gCF > 95, indicating very high concordance between gene and species trees.
+
+```{r species-tree-gcf, out.width="50%", fig.align = "center", warning=FALSE, fig.height=6}
+h = corecol(numcol=1, pal="wilke", offset=3)
+l = corecol(numcol=1, offset=3)
+# Colors
+
+xmax = 8
+
+gcf_tree = ggtree(tree, size=2, ladderize=T, aes(color=tree_info$gcf)) +
+  scale_color_continuous(name='gCF', low=l, high=h, limits=c(0,100)) +
+  xlim(0, xmax) +
+  geom_tiplab(aes(label=tree_info$S.name), color="#333333", fontface='italic', size=8) +
+  geom_text(aes(label=ifelse(tree_info$node.type=="internal" & tree_info$hyphy!="20",tree_info$hyphy, '')), hjust=-.2, vjust=-.0, color="#666666") +
+  geom_nodepoint(color="#666666", alpha=0.85, size=4) +
+  theme(legend.position=c(0.05,0.85))
+print(gcf_tree)
+
+###############
+## gCF tree
+```
+
+# Number of genes with evidence for selection per branch (aBSREL)
+
+```{r absrel-tree, out.width="50%", fig.align = "center", warning=FALSE, fig.height=6}
+
+absrel_counts = data.frame("hyphy"=tree_info$hyphy, "count"=c(0,0,0,0,0,0,0,0,0,0,0,0,0))
+# Data frame for counts per branch
+
+
+for(i in 1:nrow(absrel)){
+  cur_branches = absrel[i,]$branches.pval.less.than.alpha
+  if(cur_branches == ""){
+    next
+  }
+  cur_branches = strsplit(cur_branches, ";")
+  for(branch in cur_branches){
+    absrel_counts[absrel_counts$hyphy==branch,]$count = absrel_counts[absrel_counts$hyphy==branch,]$count + 1
+  }
+}
+# Loop over every row in the absrel data frame (every gene) and parse out the branches with evidence for selection
+  
+tree_info_counts = merge(tree_info, absrel_counts, by="hyphy")
+tree_info_counts = tree_info_counts[order(tree_info_counts$node), ]
+# Merge the tree and absrel data frames and re-sort by ape node so the trees still work
+
+h = corecol(numcol=1, pal="wilke", offset=3)
+l = corecol(numcol=1, offset=3)
+# Colors
+
+xmax = 8
+
+absrel_tree = ggtree(tree, size=2, ladderize=T, aes(color=tree_info_counts$count)) +
+  #scale_color_continuous(name='aBSREL genes', low=l, high=h) +
+  scale_color_viridis(name='aBSREL genes', option = "C") +
+  xlim(0, xmax) +
+  geom_tiplab(aes(label=tree_info$S.name), color="#333333", fontface='italic', size=8) +
+  geom_text(aes(label=ifelse(tree_info$node.type=="internal" & tree_info$hyphy!="20",tree_info$hyphy, '')), hjust=-.2, vjust=-.0, color="#666666") +
+  geom_label(aes(x=branch, label=tree_info_counts$count), label.size=NA, fill="transparent", show.legend=F, vjust=-0.1) +
+  geom_nodepoint(color="#666666", alpha=0.85, size=4) +
+  theme(legend.position=c(0.1,0.85))
+
+print(absrel_tree)
+
+###############
+## absrel tree
+
+absrel_counts = subset(absrel_counts, hyphy != "20")
+absrel_counts = subset(absrel_counts, hyphy != "")
+names(absrel_counts) = c("Node label", "# of genes with evidence for selection")
+
+absrel_counts %>% kable(caption="aBSREL genes") %>% kable_styling(bootstrap_options=c("striped", "condensed", "responsive"), full_width=F)
+```
