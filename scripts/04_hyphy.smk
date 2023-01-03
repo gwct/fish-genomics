@@ -1,5 +1,5 @@
 #############################################################################
-# Snakemake rule to run Guidance on an input directory with CDS sequences
+# Snakemake rule to run HyPhy's aBSREL on an input directory with CDS alignments
 # Gregg Thomas, January 2023
 #############################################################################
 
@@ -11,14 +11,13 @@ import os
 
 #############################################################################
 
-ALNDIR = config["aln_directory"]
+ALNDIR = config["aln_filter_directory"]
 TREEDIR = config["tree_directory"]
 SPECTREE = config["species_tree_file"]
-FILTERFILE = config["aln_filter_file"]
 HYPHYDIR = config["hyphy_directory"]
 
-filtered_loci = [ line.strip() for line in open(FILTERFILE, "r") if line.strip() != "" ];
-print("# running selection tests on ", len(filtered_loci), " loci");
+loci = [ cds_file.split("-cds.guidance.filter.fa")[0] for cds_file in os.listdir(CDSDIR) ];
+print("# running selection tests on ", len(loci), " loci");
 
 #############################################################################
 # Final rule - rule that depends on final expected output file and initiates all
@@ -28,7 +27,7 @@ localrules: all
 
 rule all:
     input:
-        expand(os.path.join(HYPHYDIR, "absrel", "{filtered_locus}-cds.json"), filtered_locus=filtered_loci)
+        expand(os.path.join(HYPHYDIR, "absrel", "{locus}-cds.json"), locus=loci)
         # Expected output from rule absrel
 
 #############################################################################
@@ -36,12 +35,12 @@ rule all:
 
 rule absrel:
     input:
-        aln = os.path.join(ALNDIR, "02-Filter-spec7-seq50-site50", "cds-spec", "{filtered_locus}-cds.guidance.filter.fa"),
+        aln = os.path.join(ALNDIR, "02-Filter-spec7-seq50-site50", "cds-spec", "{locus}-cds.guidance.filter.fa"),
         tree = SPECTREE
     output:
-        os.path.join(HYPHYDIR, "absrel", "{filtered_locus}-cds.json")
+        os.path.join(HYPHYDIR, "absrel", "{locus}-cds.json")
     log:
-        os.path.join(HYPHYDIR, "logs", "absrel", "{filtered_locus}-cds.log")
+        os.path.join(HYPHYDIR, "logs", "absrel", "{locus}-cds.log")
     shell:
         """
         hyphy absrel --alignment {input.aln} --tree {input.tree} --output {output} &> {log}

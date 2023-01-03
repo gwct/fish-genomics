@@ -1,5 +1,5 @@
 #############################################################################
-# Snakemake rule to run Guidance on an input directory with CDS sequences
+# Snakemake rule to run IQ-Tree on an input directory with CDS alignments
 # Gregg Thomas, January 2023
 #############################################################################
 
@@ -11,12 +11,11 @@ import os
 
 #############################################################################
 
-ALNDIR = config["aln_directory"]
+ALNDIR = config["aln_filter_directory"]
 TREEDIR = config["tree_directory"]
-FILTERFILE = config["aln_filter_file"]
 
-filtered_loci = [ line.strip() for line in open(FILTERFILE, "r") if line.strip() != "" ];
-print("# making gene trees for ", len(filtered_loci), " loci");
+loci = [ cds_file.split("-cds.guidance.filter.fa")[0] for cds_file in os.listdir(CDSDIR) ];
+print("# making gene trees for ", len(loci), " loci");
 
 #############################################################################
 # Final rule - rule that depends on final expected output file and initiates all
@@ -26,7 +25,7 @@ localrules: all
 
 rule all:
     input:
-        expand(os.path.join(TREEDIR, "cds-iqtree", "loci", "{filtered_locus}", "{filtered_locus}.treefile"), filtered_locus=filtered_loci)
+        expand(os.path.join(TREEDIR, "cds-iqtree", "loci", "{locus}", "{locus}.treefile"), locus=loci)
         # Output from make_gene_trees
 
 #############################################################################
@@ -34,13 +33,13 @@ rule all:
 
 rule make_gene_trees:
     input: 
-        os.path.join(ALNDIR, "02-Filter-spec7-seq50-site50", "cds", "{filtered_locus}-cds.guidance.filter.fa")
+        os.path.join(ALNDIR, "02-Filter-spec7-seq50-site50", "cds", "{locus}-cds.guidance.filter.fa")
     output:
-        os.path.join(TREEDIR, "cds-iqtree", "loci", "{filtered_locus}", "{filtered_locus}.treefile")
+        os.path.join(TREEDIR, "cds-iqtree", "loci", "{locus}", "{locus}.treefile")
     params:
-        prefix = os.path.join(TREEDIR, "cds-iqtree", "loci", "{filtered_locus}", "{filtered_locus}")
+        prefix = os.path.join(TREEDIR, "cds-iqtree", "loci", "{locus}", "{locus}")
     log:
-        os.path.join(TREEDIR,"logs", "cds-iqtree", "{filtered_locus}-cds-iqtree.log")
+        os.path.join(TREEDIR, "logs", "cds-iqtree", "{locus}-cds-iqtree.log")
     resources:
         cpus = 4
     shell:

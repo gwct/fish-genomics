@@ -140,10 +140,10 @@ for(i in 1:nrow(absrel)){
 }
 # Loop over every row in the absrel data frame (every gene) and parse out the branches with evidence for selection
   
-for(branch in tree_info$hyphy){
-  x = absrel[absrel$branches.pval.less.than.alpha %like% branch, ]
-  write.csv(x, file=here("data", "absrel-branch", paste(branch, ".csv", sep="")), row.names=F)
-}
+# for(branch in tree_info$hyphy){
+#   x = absrel[absrel$branches.pval.less.than.alpha %like% branch, ]
+#   write.csv(x, file=here("data", "absrel-branch", paste(branch, ".csv", sep="")), row.names=F)
+# }
 
 tree_info_counts = merge(tree_info, absrel_counts, by="hyphy")
 tree_info_counts = tree_info_counts[order(tree_info_counts$node), ]

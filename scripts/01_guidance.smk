@@ -14,7 +14,7 @@ import os
 CDSDIR = config["cds_directory"]
 ALNDIR = config["aln_directory"]
 
-loci = [ cds_file.split("-cds.fa")[0] for cds_file in os.listdir(INDIR) ];
+loci = [ cds_file.split("-cds.fa")[0] for cds_file in os.listdir(CDSDIR) ];
 print("# aligning ", len(loci), " orthogroups");
 
 

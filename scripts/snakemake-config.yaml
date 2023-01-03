@@ -5,12 +5,14 @@ cds_directory: /n/holylfs05/LABS/informatics/Users/gthomas/fish/seq/cds/
 aln_directory: /n/holylfs05/LABS/informatics/Users/gthomas/fish/aln/
 # The directory to write alignment output
 
-aln_filter_file: /n/holylfs05/LABS/informatics/Users/gthomas/fish/aln/02-Filter-spec7-seq50-site50/aln-filter-passed-spec7-seq50-site50.txt
-# The file containing the loci that passed alignment filtering with 02_aln_filter.py
+aln_filter_directory: /n/holylfs05/LABS/informatics/Users/gthomas/fish/aln/02-Filter-spec7-seq50-site50/
+# The output directory from 02_aln_filter.py
 
 tree_directory: /n/holylfs05/LABS/informatics/Users/gthomas/fish/tree/
 # The directory to write gene tree output
 
 species_tree_file: /n/holylfs05/LABS/informatics/Users/gthomas/fish/tree/cds-iqtree/astral/astral.tre
+# If you have a species tree file, specify it here
 
 hyphy_directory: /n/holylfs05/LABS/informatics/Users/gthomas/fish/hyphy/
+# The directory to write hyphy output
