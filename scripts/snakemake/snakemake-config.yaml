@@ -2,18 +2,15 @@ cds_directory: /n/holylfs05/LABS/informatics/Users/gthomas/fish/seq/cds/
 # Directory containing unaligned CDS sequences by orthogroup with filenames: <orthogroup>.fa
 # FASTA headers should be in the format: <species ID>-<transcript ID>-<protein ID>
 
-#locus_file: /n/home07/gthomas/projects/spider-wgd/data/multi-spec-orthogroups.txt
-# # A file containing a list of loci/clusters, one per line, to run the pipeline on
-
 aln_directory: /n/holylfs05/LABS/informatics/Users/gthomas/fish/aln/
-# # The directory to write alignment output
+# The directory to write alignment output
+
+aln_filter_file: /n/holylfs05/LABS/informatics/Users/gthomas/fish/aln/02-Filter-spec7-seq50-site50/aln-filter-passed-spec7-seq50-site50.txt
+# The file containing the loci that passed alignment filtering with 02_aln_filter.py
 
 tree_directory: /n/holylfs05/LABS/informatics/Users/gthomas/fish/tree/
-# # The directory to write tree output
+# The directory to write gene tree output
 
 species_tree_file: /n/holylfs05/LABS/informatics/Users/gthomas/fish/tree/cds-iqtree/astral/astral.tre
 
 hyphy_directory: /n/holylfs05/LABS/informatics/Users/gthomas/fish/hyphy/
-
-conda_env_path: /n/home07/gthomas/anaconda3/envs/cds-aln-2/
-# The path to the conda environment with the Guidance package installed
