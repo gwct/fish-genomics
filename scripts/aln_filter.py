@@ -5,8 +5,8 @@
 ############################################################
 
 import sys, os, argparse
-import core as CORE
-import seqparse as SEQ
+import lib.core as CORE
+import lib.seqparse as SEQ
 #from Bio.Seq import Seq
 
 ############################################################
