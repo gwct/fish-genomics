@@ -216,6 +216,6 @@ snakemake -p -s 04_hyphy.smk --configfile snakemake-config.yaml --profile slurm_
 
 If everything looks ok, remove the dry run option and execute! Afterwards, address any failed jobs. These can be identified by checking the log files in the `hyphy_directory` `logs/absrel/` subfolder (e.g. `grep "error\|Error\|ERROR" *.log`).
 
-## 5. Post-analysis
+## 5. Analysis
 
 When we get to this point, if you need help analyzing the results let me know. I have a [separate repository](https://github.com/gwct/hyphy-interface) for organizing the results of HyPhy runs that can be used.
