@@ -14,7 +14,7 @@ dependencies:
   - blast=2.10.1=pl526he19e7b1_3
   - bzip2=1.0.8=h7f98852_4
   - c-ares=1.18.1=h7f98852_0
-  - ca-certificates=2022.9.24=ha878542_0
+  - ca-certificates=2022.12.7=ha878542_0
   - cached-property=1.5.2=hd8ed1ab_1
   - cached_property=1.5.2=pyha770c72_1
   - cairo=1.16.0=h9f066cc_1006
@@ -39,8 +39,10 @@ dependencies:
   - h5py=3.7.0=nompi_py37hf1ce037_101
   - harfbuzz=2.7.2=ha5b49bf_1
   - hdf5=1.12.2=nompi_h2386368_100
+  - hyphy=2.5.42=h91ae1e9_0
   - icu=67.1=he1b5a44_0
   - importlib-metadata=4.11.4=py37h89c1867_0
+  - iqtree=2.2.0.3=hb97b32f_1
   - jemalloc=4.5.0=0
   - jpeg=9e=h166bdaf_2
   - keras-applications=1.0.8=py_1
@@ -87,10 +89,12 @@ dependencies:
   - mafft=7.508=hec16e2b_0
   - markdown=3.4.1=pyhd8ed1ab_0
   - markupsafe=2.1.1=py37h540881e_1
+  - mpi=1.0=openmpi
   - muscle=5.1=h9f5acd7_1
   - ncurses=6.3=h27087fc_1
   - numpy=1.21.6=py37h976b520_0
-  - openssl=1.1.1s=h166bdaf_0
+  - openmpi=4.1.4=ha1ae619_102
+  - openssl=1.1.1s=h0b41bf4_1
   - paml=4.9=hec16e2b_7
   - pango=1.42.4=h69149e4_5
   - pcre=8.45=h9c3ff4c_0
