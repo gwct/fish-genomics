@@ -1,6 +1,6 @@
 # Selection pipeline
 
-From annotated genomes to selection tests
+From CDS orthologs to selection tests
 
 ## Intro
 
