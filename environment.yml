@@ -10,18 +10,38 @@ dependencies:
   - _libgcc_mutex=0.1=conda_forge
   - _openmp_mutex=4.5=2_gnu
   - absl-py=1.3.0=pyhd8ed1ab_0
+  - amply=0.1.5=pyhd8ed1ab_0
+  - appdirs=1.4.4=pyh9f0ad1d_0
   - astor=0.8.1=pyh9f0ad1d_0
+  - attrs=22.2.0=pyh71513ae_0
   - blast=2.10.1=pl526he19e7b1_3
+  - brotlipy=0.7.0=py37h540881e_1004
   - bzip2=1.0.8=h7f98852_4
   - c-ares=1.18.1=h7f98852_0
   - ca-certificates=2022.12.7=ha878542_0
   - cached-property=1.5.2=hd8ed1ab_1
   - cached_property=1.5.2=pyha770c72_1
   - cairo=1.16.0=h9f066cc_1006
+  - certifi=2022.12.7=pyhd8ed1ab_0
+  - cffi=1.15.1=py37h43b0acd_1
+  - charset-normalizer=2.1.1=pyhd8ed1ab_0
   - clustalw=2.1=h9f5acd7_7
+  - coin-or-cbc=2.10.8=h3786ebc_0
+  - coin-or-cgl=0.60.6=h6f57e76_2
+  - coin-or-clp=1.17.7=hc56784d_2
+  - coin-or-osi=0.108.7=h2720bb7_2
+  - coin-or-utils=2.11.6=h202d8b1_2
+  - coincbc=2.10.8=0_metapackage
+  - configargparse=1.5.3=pyhd8ed1ab_0
+  - connection_pool=0.0.3=pyhd3deb0d_0
+  - cryptography=38.0.2=py37h38fbfac_1
   - curl=7.86.0=h7bff187_1
+  - datrie=0.8.2=py37h540881e_4
+  - docutils=0.19=py37h89c1867_0
+  - dpath=2.0.6=py37h89c1867_1
   - entrez-direct=16.2=he881be0_1
   - expat=2.2.10=h9c3ff4c_0
+  - filelock=3.9.0=pyhd8ed1ab_0
   - fontconfig=2.13.1=hba837de_1005
   - freetype=2.12.1=hca18f0e_1
   - fribidi=1.0.10=h36c2ea0_0
@@ -29,6 +49,8 @@ dependencies:
   - gdbm=1.18=h0a1914f_2
   - gettext=0.21.1=h27087fc_0
   - giflib=5.2.1=h36c2ea0_2
+  - gitdb=4.0.10=pyhd8ed1ab_0
+  - gitpython=3.1.30=pyhd8ed1ab_0
   - gmp=6.2.1=h58526e2_0
   - google-pasta=0.2.0=pyh8c360ce_0
   - graphite2=1.3.13=h58526e2_1001
@@ -41,10 +63,15 @@ dependencies:
   - hdf5=1.12.2=nompi_h2386368_100
   - hyphy=2.5.42=h91ae1e9_0
   - icu=67.1=he1b5a44_0
+  - idna=3.4=pyhd8ed1ab_0
   - importlib-metadata=4.11.4=py37h89c1867_0
+  - importlib_resources=5.10.2=pyhd8ed1ab_0
   - iqtree=2.2.0.3=hb97b32f_1
   - jemalloc=4.5.0=0
+  - jinja2=3.1.2=pyhd8ed1ab_1
   - jpeg=9e=h166bdaf_2
+  - jsonschema=4.17.3=pyhd8ed1ab_0
+  - jupyter_core=4.11.1=py37h89c1867_0
   - keras-applications=1.0.8=py_1
   - keras-preprocessing=1.1.2=pyhd8ed1ab_0
   - keyutils=1.6.1=h166bdaf_0
@@ -68,6 +95,7 @@ dependencies:
   - libiconv=1.17=h166bdaf_0
   - libidn2=2.3.4=h166bdaf_0
   - liblapack=3.9.0=16_linux64_openblas
+  - liblapacke=3.9.0=16_linux64_openblas
   - libnghttp2=1.47.0=hdcd2b5c_1
   - libnsl=2.0.0=h7f98852_0
   - libopenblas=0.3.21=pthreads_h78a6416_3
@@ -91,6 +119,7 @@ dependencies:
   - markupsafe=2.1.1=py37h540881e_1
   - mpi=1.0=openmpi
   - muscle=5.1=h9f5acd7_1
+  - nbformat=5.7.1=pyhd8ed1ab_0
   - ncurses=6.3=h27087fc_1
   - numpy=1.21.6=py37h976b520_0
   - openmpi=4.1.4=ha1ae619_102
@@ -309,29 +338,51 @@ dependencies:
   - perl-yaml=1.29=pl526_0
   - pip=22.3.1=pyhd8ed1ab_0
   - pixman=0.40.0=h36c2ea0_0
+  - pkgutil-resolve-name=1.3.10=pyhd8ed1ab_0
+  - plac=1.3.5=pyhd8ed1ab_0
   - prank=v.170427=h9f5acd7_5
   - protobuf=4.21.8=py37hd23a5d3_0
+  - psutil=5.9.3=py37h540881e_0
   - pthread-stubs=0.4=h36c2ea0_1001
+  - pulp=2.6.0=py37h89c1867_1
+  - pycparser=2.21=pyhd8ed1ab_0
   - pyfaidx=0.7.0=pyh5e36f6f_0
+  - pyopenssl=23.0.0=pyhd8ed1ab_0
+  - pyparsing=3.0.9=pyhd8ed1ab_0
+  - pyrsistent=0.18.1=py37h540881e_1
+  - pysocks=1.7.1=py37h89c1867_5
   - python=3.7.12=hb7a2778_100_cpython
+  - python-fastjsonschema=2.16.2=pyhd8ed1ab_0
   - python_abi=3.7=3_cp37m
+  - pyyaml=6.0=py37h540881e_4
   - re2=2022.06.01=h27087fc_1
   - readline=8.1.2=h0f457ee_0
+  - requests=2.28.1=pyhd8ed1ab_1
+  - reretry=0.11.8=pyhd8ed1ab_0
   - ruby=2.2.3=0
   - scipy=1.7.3=py37hf2a6cf1_0
   - seqiolib=0.2.4=pyhdfd78af_0
   - setuptools=65.5.1=pyhd8ed1ab_0
   - six=1.16.0=pyh6c4a22f_0
+  - smart_open=6.3.0=pyha770c72_0
+  - smmap=3.0.5=pyh44b312d_0
+  - snakemake-minimal=7.19.1=pyhdfd78af_0
   - sqlite=3.40.0=h4ff8645_0
+  - stopit=1.1.2=py_0
   - t_coffee=11.0.8=py37hea885bf_8
+  - tabulate=0.9.0=pyhd8ed1ab_1
   - tensorboard=1.14.0=py37_0
   - tensorflow=1.14.0=h4531e10_0
   - tensorflow-base=1.14.0=py37h4531e10_0
   - tensorflow-estimator=1.14.0=py37h5ca1d4c_0
   - termcolor=2.1.1=pyhd8ed1ab_0
+  - throttler=1.2.1=pyhd8ed1ab_0
   - tidyp=1.04=hec16e2b_4
   - tk=8.6.12=h27826a3_0
+  - toposort=1.7=pyhd8ed1ab_0
+  - traitlets=5.8.0=pyhd8ed1ab_0
   - typing_extensions=4.4.0=pyha770c72_0
+  - urllib3=1.26.13=pyhd8ed1ab_0
   - werkzeug=2.2.2=pyhd8ed1ab_0
   - wget=1.20.3=ha56f1ee_1
   - wheel=0.38.4=pyhd8ed1ab_0
@@ -351,6 +402,7 @@ dependencies:
   - xorg-xproto=7.0.31=h7f98852_1007
   - xz=5.2.6=h166bdaf_0
   - yaml=0.2.5=h7f98852_2
+  - yte=1.5.1=py37h89c1867_0
   - zipp=3.10.0=pyhd8ed1ab_0
   - zlib=1.2.13=h166bdaf_4
   - zstd=1.5.2=h6239696_4
