@@ -11,6 +11,8 @@ import os
 
 #############################################################################
 
+CONDAPATH = config["conda_env_path"]
+
 CDSDIR = config["cds_directory"]
 ALNDIR = config["aln_directory"]
 

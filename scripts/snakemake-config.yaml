@@ -1,3 +1,7 @@
+conda_env_path: /n/home07/gthomas/miniconda3/envs/cds-aln/
+# The path to the conda environment with the Guidance package installed
+# Get this by typing 'which guidance', and pasting everything in the path up to the environment name (cds-aln, unless you changed it)
+
 cds_directory: /n/holylfs05/LABS/informatics/Users/gthomas/fish/seq/cds/
 # Directory containing unaligned CDS sequences by orthogroup with filenames: <orthogroup>.fa
 # FASTA headers should be in the format: <species ID>-<transcript ID>-<protein ID>
