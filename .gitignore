@@ -1,2 +1,2 @@
 *.code-workspace
-scripts/snakemake/.snakemake/
+scripts/snakemake/

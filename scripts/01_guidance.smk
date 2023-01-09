@@ -46,7 +46,7 @@ rule run_guidance:
         cpus = 4
     shell:
         """
-        guidance --seqFile {input} --msaProgram MAFFT --seqType codon --outDir {output.output_directory} --dataset {params.locus} --proc_num {resources.cpus} &> {log}
+        perl {CONDAPATH}/opt/guidance/www/Guidance/guidance.pl --seqFile {input} --msaProgram MAFFT --seqType codon --outDir {output.output_directory} --dataset {params.locus} --proc_num {resources.cpus} &> {log}
         """
 
 #############################################################################
